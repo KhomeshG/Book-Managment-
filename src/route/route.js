@@ -41,13 +41,13 @@ router.get(
 router.post(
   "/books/:bookId/review",
   middleware.authentication,
-  middleware.autherization,
+  // middleware.autherization,
   validator.reviews,
   reviewController.reviews
 );
 
 //Update books by bookId
-router.put("/books/:bookId",bookController.updateBook)
+router.put("/books/:bookId", bookController.updateBook);
 
 //=========================== if endpoint is not correct==========================================
 
@@ -59,3 +59,4 @@ router.all("/*", function (req, res) {
 });
 
 module.exports = router;
+//

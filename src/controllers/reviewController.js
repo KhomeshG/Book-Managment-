@@ -19,7 +19,7 @@ exports.reviews = async function (req, res) {
     let reviewsData = await reviewModel.create(req.body);
     //let result = { checkBook, reviewsData };
 
-    return res.send({ data: reviewsData });
+    return res.status(201).send({ data: reviewsData });
   } catch (err) {
     return res.send({
       status: false,
