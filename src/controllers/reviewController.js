@@ -83,15 +83,17 @@ module.exports = {
       }
 
       //Updating that review
-      let updatedReviewData = await reviewModel.findByIdAndUpdate(
-        req.params.reviewId,
-        {
-          reviewedBy: req.body.reviewedBy,
-          review: req.body.review,
-          rating: req.body.rating,
-        },
-        { new: true }
-      );
+      let updatedReviewData = await reviewModel
+        .findByIdAndUpdate(
+          req.params.reviewId,
+          {
+            reviewedBy: req.body.reviewedBy,
+            review: req.body.review,
+            rating: req.body.rating,
+          },
+          { new: true }
+        )
+        .select({ __v: 0 });
       //finding that pertical book reviews book reviews
       // let allReviews = await reviewModel.find({ bookId: req.params.bookId });
 
