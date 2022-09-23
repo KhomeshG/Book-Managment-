@@ -27,7 +27,12 @@ router.post(
 );
 
 //Get Books
-router.get("/books", middleware.authentication, bookController.getBooks);
+router.get(
+  "/books",
+  middleware.authentication,
+  validator.getBookByQuery,
+  bookController.getBooks
+);
 
 //Get Book by BookID
 router.get(
@@ -40,16 +45,29 @@ router.get(
 //Creating Reviews
 router.post(
   "/books/:bookId/review",
-  // middleware.authentication,
-  //middleware.autherization,
   validator.reviews,
   reviewController.reviews
 );
 
 //Update books by bookId
-router.put("/books/:bookId", bookController.updateBook);
+router.put(
+  "/books/:bookId",
+  middleware.authentication,
+  middleware.autherization,
+  validator.updateBook,
+  bookController.updateBook
+);
 
-//Update reviews by bookId and reviewId
+//delete by BookId
+router.delete(
+  "/books/:bookId",
+  middleware.authentication,
+  middleware.autherization,
+  validator.delBookbyBookId,
+  bookController.deleteBook
+);
+
+//update review
 
 router.put(
   "/books/:bookId/review/:reviewId",
@@ -57,6 +75,14 @@ router.put(
   reviewController.updateReviews
 );
 
+//
+//delete review
+
+router.delete(
+  "/books/:bookId/review/:reviewId",
+  validator.deleteReview,
+  reviewController.deleteReview
+);
 //=========================== if endpoint is not correct==========================================
 
 router.all("/*", function (req, res) {

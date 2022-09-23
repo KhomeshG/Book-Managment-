@@ -236,6 +236,21 @@ module.exports = {
     }
   },
 
+  getBookByQuery: async (req, res, next) => {
+    try {
+      if (req.query.userId) {
+        if (!isvalidObjectId(req.query.userId)) {
+          return res
+            .status(400)
+            .send({ status: false, message: "UserId is not Valid" });
+        }
+      }
+      next();
+    } catch (e) {
+      res.status(500).send({ status: false, error: e.message });
+    }
+  },
+
   getBookByID: async (req, res, next) => {
     try {
       let bookId = req.params.bookId;
@@ -251,49 +266,89 @@ module.exports = {
   },
 
   reviews: function (req, res, next) {
-    //storing Data in object
-    let { bookId, reviewedBy, reviewedAt, rating } = req.body;
-    //bookId (Madatory)
-    if (!bookId) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "bookId Is required !!" });
+    try {
+      //storing Data in object
+      let { bookId, reviewedBy, reviewedAt, rating } = req.body;
+      //bookId (Madatory)
+      if (!bookId) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "bookId Is required !!" });
+      }
+      if (!isvalidObjectId(bookId) || !isvalidObjectId(req.params.bookId)) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "Not a valid BookID !!" });
+      }
+      //reviewedAt (Madatory)
+      if (!reviewedAt) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "reviewedAt Is required !!" });
+      }
+      //rating (Madatory)
+      if (!/^[1-5]$/.test(rating)) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "rating should be from 1-5 !!" });
+      }
+      if (!rating) {
+        return res
+          .status(400)
+          .send({ status: false, msg: "rating Is required !!" });
+      }
+      next();
+    } catch (e) {
+      res.status(500).send({ status: false, error: e.message });
     }
+  },
 
-    //reviewedBy (Madatory)
-    if (!reviewedBy) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "reviewedBy Is required !!" });
+  updateBook: (req, res, next) => {
+    try {
+      let requestBody = req.body;
+      if (!isvalidRequestBody(requestBody)) {
+        return res
+          .status(400)
+          .send({ statua: false, msg: `Request body can't be empty` });
+      }
+      next();
+    } catch (e) {
+      res.status(500).send({ status: false, error: e.message });
     }
-    //reviewedAt (Madatory)
-    if (!reviewedAt) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "reviewedAt Is required !!" });
+  },
+
+  delBookbyBookId: (req, res, next) => {
+    try {
+      if (!isvalidObjectId(req.params.bookId)) {
+        return res.statua(400).send({
+          status: false,
+          msg: "Not a valid BookID",
+        });
+      }
+      next();
+    } catch (e) {
+      res.status(500).send({ status: false, error: e.message });
     }
-    //rating (Madatory)
-    if (!rating) {
-      return res
-        .status(400)
-        .send({ status: false, msg: "rating Is required !!" });
-    }
-    next();
   },
 
   updateReviews: function (req, res, next) {
+    //Checking Format of id
     if (!isvalidObjectId(req.params.bookId)) {
       return res.status(400).send({
         status: false,
-        msg: " BookId contain 12hex 24digits",
+        msg: " BookID is not a valid book id",
       });
     }
+
+    //Checking Format of id
     if (!isvalidObjectId(req.params.reviewId)) {
       return res.status(400).send({
         status: false,
-        msg: " reviewId contain 12hex 24digits",
+        msg: "review is not a valid book id",
       });
     }
+
+    //
     if (!req.params.bookId || req.params.bookId == ":bookId") {
       return res.status(400).send({
         status: false,
@@ -307,5 +362,29 @@ module.exports = {
       });
     }
     next();
+  },
+
+  deleteReview: (req, res, next) => {
+    try {
+      let reviewID = req.params.reviewId;
+      let bookID = req.params.bookId;
+
+      if (!isvalidObjectId(bookID)) {
+        return res
+          .status(400)
+          .send({ status: false, message: "BookID is not a valid book id" });
+      }
+
+      //
+      if (!isvalidObjectId(reviewID)) {
+        return res.status(400).send({
+          status: false,
+          message: "ReviewID is not a valid review id",
+        });
+      }
+      next();
+    } catch (e) {
+      res.status(500).send({ status: false, error: e.message });
+    }
   },
 };
