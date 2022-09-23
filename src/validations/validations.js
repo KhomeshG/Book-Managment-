@@ -280,4 +280,32 @@ module.exports = {
     }
     next();
   },
+
+  updateReviews: function (req, res, next) {
+    if (!isvalidObjectId(req.params.bookId)) {
+      return res.status(400).send({
+        status: false,
+        msg: " BookId contain 12hex 24digits",
+      });
+    }
+    if (!isvalidObjectId(req.params.reviewId)) {
+      return res.status(400).send({
+        status: false,
+        msg: " reviewId contain 12hex 24digits",
+      });
+    }
+    if (!req.params.bookId || req.params.bookId == ":bookId") {
+      return res.status(400).send({
+        status: false,
+        msg: " BookId required Id And its Required Field",
+      });
+    }
+    if (!req.params.reviewId || req.params.reviewId == ":reviewId") {
+      return res.status(400).send({
+        status: false,
+        msg: " reviewId required Id  And its Required Field 2",
+      });
+    }
+    next();
+  },
 };

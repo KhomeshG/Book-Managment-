@@ -40,14 +40,22 @@ router.get(
 //Creating Reviews
 router.post(
   "/books/:bookId/review",
-  middleware.authentication,
-  middleware.autherization,
+  // middleware.authentication,
+  //middleware.autherization,
   validator.reviews,
   reviewController.reviews
 );
 
 //Update books by bookId
-router.put("/books/:bookId",bookController.updateBook)
+router.put("/books/:bookId", bookController.updateBook);
+
+//Update reviews by bookId and reviewId
+
+router.put(
+  "/books/:bookId/review/:reviewId",
+  validator.updateReviews,
+  reviewController.updateReviews
+);
 
 //=========================== if endpoint is not correct==========================================
 
