@@ -2,21 +2,21 @@
   "name": "project-books-managemnet",
   "version": "1.0.0",
   "description": "Book Management",
-  "main": "index.js",
+  "main": "node src/index.js",
   "scripts": {
-    "test": "node src/index.js"
-
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sonalgill/Project-Books-Managemnet.git"
+    "url": "git+https://github.com/KhomeshG/Project-Books-Managemnet.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sonalgill/Project-Books-Managemnet/issues"
+    "url": "https://github.com/KhomeshG/Project-Books-Managemnet/issues"
   },
-  "homepage": "https://github.com/sonalgill/Project-Books-Managemnet#readme",
+  "homepage": "https://github.com/KhomeshG/Project-Books-Managemnet#readme",
   "dependencies": {
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
@@ -24,3 +24,4 @@
     "nodemon": "^2.0.20"
   }
 }
+

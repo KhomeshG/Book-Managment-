@@ -42,13 +42,6 @@ router.get(
   bookController.getBookById
 );
 
-//Creating Reviews
-router.post(
-  "/books/:bookId/review",
-  validator.reviews,
-  reviewController.reviews
-);
-
 //Update books by bookId
 router.put(
   "/books/:bookId",
@@ -65,6 +58,13 @@ router.delete(
   middleware.autherization,
   validator.delBookbyBookId,
   bookController.deleteBook
+);
+
+//Creating Reviews
+router.post(
+  "/books/:bookId/review",
+  validator.reviews,
+  reviewController.reviews
 );
 
 //update review
