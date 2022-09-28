@@ -27,12 +27,12 @@ const loginUser = async function (req, res) {
     );
 
     //Verifing Token
-    let decode = jwt.verify(token, "Group-27-Secret-Key")
-        res.status(201).send({
-          status: true,
-          data: token,
-          tokenDetails: decode
-        })
+    let decode = jwt.verify(token, "Group-27-Secret-Key");
+    res.status(201).send({
+      status: true,
+      data: token,
+      tokenDetails: decode,
+    });
   } catch (err) {
     return res.status(500).send({
       msg: false,

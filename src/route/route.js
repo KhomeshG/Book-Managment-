@@ -12,16 +12,10 @@ const reviewController = require("../controllers/reviewController");
 const middleware = require("../middleware/auth");
 
 //Create User API
-router.post(
-  "/register",
-  validator.createUser,
-  userController.createUser);
+router.post("/register", validator.createUser, userController.createUser);
 
 //logIn API
-router.post(
-  "/login",
-  validator.userLogin,
-  loginController.loginUser);
+router.post("/login", validator.userLogin, loginController.loginUser);
 
 //Create book
 router.post(
@@ -68,7 +62,7 @@ router.put(
 router.delete(
   "/books/:bookId",
   middleware.authentication,
- // middleware.autherization,
+  middleware.autherization,
   validator.delBookbyBookId,
   bookController.deleteBook
 );

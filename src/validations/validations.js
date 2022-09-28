@@ -10,18 +10,18 @@ function onlyAplha(value) {
   return /^[a-zA-Z/s]/.test(value);
 }
 
-function validateMobile($phone) {
+function validateMobile(phone) {
   var phoneReg = /^[6789]\d{9}$/;
-  if (!phoneReg.test($phone)) {
+  if (!phoneReg.test(phone)) {
     return false;
   } else {
     return true;
   }
 }
 
-function validateEmail($email) {
+function validateEmail(email) {
   var emailReg = /^(\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3}))$/;
-  if (!emailReg.test($email)) {
+  if (!emailReg.test(email)) {
     return false;
   } else {
     return true;
@@ -42,23 +42,32 @@ function isValid(value) {
 }
 
 function isValidDate(value) {
-  return /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/.test(value)
+  return /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/.test(
+    value
+  );
 }
 
 function isValidISBN(value) {
-  return /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)/.test(value)
+  return /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)/.test(value);
 }
 
 module.exports = {
   createUser: async (req, res, next) => {
     try {
       let data = req.body;
+      //Checking Enpty Doc
+
       if (Object.keys(data).length == 0) {
         res
           .status(400)
           .send({ status: false, msg: "Request body can not be empty" });
       }
+
+      //
+
       let { title, name, phone, email, password } = data;
+
+      //Checking Our Title
       if (!isValidTitle(title)) {
         return res.status(400).send({
           staus: false,
@@ -227,8 +236,10 @@ module.exports = {
       }
 
       title = title.replace(/\s+/g, " ");
-      title = title.trim()
-      let alreadyUsedTitle = await bookModel.findOne({ title: { $regex: title, $options: 'i' } });
+      title = title.trim();
+      let alreadyUsedTitle = await bookModel.findOne({
+        title: { $regex: title, $options: "i" },
+      });
       if (alreadyUsedTitle) {
         return res
           .status(400)
@@ -291,9 +302,10 @@ module.exports = {
           .send({ status: false, msg: "Not a valid BookID !!" });
       }
       if (req.params.bookId != bookId) {
-        return res
-          .status(400)
-          .send({ status: false, msg: "Provide same BookID in params and body" })
+        return res.status(400).send({
+          status: false,
+          msg: "Provide same BookID in params and body",
+        });
       }
       //reviewedAt (Madatory)
       if (!reviewedAt) {
